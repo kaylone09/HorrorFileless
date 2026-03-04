@@ -98,22 +98,6 @@ $keyMap = @{
     'XButton1'=0x05;'XButton2'=0x06
 }
 
-# --- Download immagine (NUOVO LINK) ---
-$tmpId = Get-Random -Minimum 1000 -Maximum 9999
-$imgPath = "$env:TEMP\$tmpId.tmp"
-
-if (-not (Test-Path $imgPath)) {
-    try {
-        $wr = [System.Net.WebRequest]::Create('https://raw.githubusercontent.com/kaylone09/test/refs/heads/main/test.jpg')
-        $wr.Timeout = 5000
-        $resp = $wr.GetResponse()
-        $stream = $resp.GetResponseStream()
-        $fs = [System.IO.File]::Create($imgPath)
-        $stream.CopyTo($fs)
-        $fs.Close(); $stream.Close(); $resp.Close()
-    } catch {}
-}
-
 # --- Decorative image (optional, non-blocking) ---
 $imgPath = "$env:TEMP\$tmpId.tmp"
 if (-not (Test-Path $imgPath)) {
